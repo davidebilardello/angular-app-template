@@ -17,7 +17,9 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
-  const commonEngine = new CommonEngine();
+
+  let allowedHosts = process.env["DEVELOPMENT_SERVER"] ? ['localhost', '127.0.0.1'] : [process.env["HOSTNAME"] ?? ""]
+  const commonEngine = new CommonEngine({allowedHosts: allowedHosts});
 
   server.set('view engine', 'html');
   server.set('views', browserDistFolder);
